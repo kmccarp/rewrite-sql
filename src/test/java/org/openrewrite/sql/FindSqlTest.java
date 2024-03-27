@@ -56,17 +56,17 @@ class FindSqlTest implements RewriteTest {
               assertThat(rows).hasSize(1);
               DatabaseColumnsUsed.Row row = rows.get(0);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.SELECT);
-              assertThat(row.getTable()).isEqualTo("recipe_run_repository");
-              assertThat(row.getColumn()).isEqualTo("repository_origin");
+              assertThat(row.getTable()).isEqualTo("users");
+              assertThat(row.getColumn()).isEqualTo("first_name");
               assertThat(row.getGetCommitHash()).isEqualTo("1234");
           }),
           text(
             // language=sql
             """
-              SELECT distinct(repository_origin)
-              FROM recipe_run_repository
-              WHERE run_id = :recipeRunId
-              AND :dataTable = ANY (data_tables)
+              SELECT distinct(first_name)
+              FROM users
+              WHERE user_id = :userId
+              AND :user_type = ANY (user_types)
               """,
             spec -> spec
               .path("select.sql")
@@ -87,19 +87,19 @@ class FindSqlTest implements RewriteTest {
               DatabaseColumnsUsed.Row row = rows.get(0);
               assertThat(row.getLineNumber()).isEqualTo(2);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.SELECT);
-              assertThat(row.getTable()).isEqualTo("recipe_run_repository");
-              assertThat(row.getColumn()).isEqualTo("repository_origin");
+              assertThat(row.getTable()).isEqualTo("users");
+              assertThat(row.getColumn()).isEqualTo("first_name");
           }).cycles(1).expectedCyclesThatMakeChanges(1),
           java(
             //language=java
             """
               class Test {
                 String aSelect = \"""
-                  SELECT distinct(repository_origin)
-                  FROM recipe_run_repository
-                  WHERE run_id = :recipeRunId
-                  AND :dataTable = ANY (data_tables)
-                \""";
+                   SELECT distinct(first_name)
+                   FROM users
+                   WHERE user_id = :userId
+                   AND :user_type = ANY (user_types)
+                   \""";
               }
               """,
             spec -> spec.after(a -> {
@@ -118,18 +118,18 @@ class FindSqlTest implements RewriteTest {
               DatabaseColumnsUsed.Row row = rows.get(0);
               assertThat(row.getLineNumber()).isEqualTo(2);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.SELECT);
-              assertThat(row.getTable()).isEqualTo("recipe_run_repository");
-              assertThat(row.getColumn()).isEqualTo("repository_origin");
+              assertThat(row.getTable()).isEqualTo("users");
+              assertThat(row.getColumn()).isEqualTo("first_name");
           }).cycles(1).expectedCyclesThatMakeChanges(1),
           yaml(
             //language=yaml
             """
               foo: bar
               query: >
-                  SELECT distinct(repository_origin)
-                  FROM recipe_run_repository
-                  WHERE run_id = :recipeRunId
-                  AND :dataTable = ANY (data_tables)
+                  SELECT distinct(first_name)
+                  FROM users
+                  WHERE user_id = :userId
+                  AND :user_type = ANY (user_types)
               """,
             spec -> spec.after(a -> {
                 assertThat(a).contains("~~>");
@@ -147,16 +147,16 @@ class FindSqlTest implements RewriteTest {
               assertThat(rows).hasSize(1);
               DatabaseColumnsUsed.Row row = rows.get(0);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.UPDATE);
-              assertThat(row.getTable()).isEqualTo("commit");
+              assertThat(row.getTable()).isEqualTo("user_update_jobs");
               assertThat(row.getColumn()).isEqualTo("state");
           }),
           text(
             // language=sql
             """
-              UPDATE commit
+              UPDATE user_update_jobs
               SET state = 'CANCELED'
               WHERE state IN ('QUEUED', 'ORPHANED', 'PROCESSING')
-              AND commit_id = :commitId
+              AND job_id = :jobId
               """,
             spec -> spec
               .path("update.sql")
@@ -176,13 +176,13 @@ class FindSqlTest implements RewriteTest {
               assertThat(rows).hasSize(1);
               DatabaseColumnsUsed.Row row = rows.get(0);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.DELETE);
-              assertThat(row.getTable()).isEqualTo("access_token");
+              assertThat(row.getTable()).isEqualTo("users");
               assertThat(row.getColumn()).isNull();
           }),
           text(
             // language=sql
             """
-              DELETE FROM access_token
+              DELETE FROM users
               WHERE email = :email
               """,
             spec -> spec
