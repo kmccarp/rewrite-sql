@@ -127,7 +127,7 @@ class SqlTextBlockFormatVisitor extends JavaIsoVisitor<ExecutionContext> {
                     String indented = Indenter.indent(literal.getValueSource(), formatted, style);
                     return literal
                             .withValue(formatted)
-                            .withValueSource(String.format("\"\"\"%s\"\"\"", indented));
+                            .withValueSource("\"\"\"%s\"\"\"".formatted(indented));
                 }
             }
         }

@@ -187,11 +187,9 @@ public class FindSql extends Recipe {
     private static int countLines(Space space) {
         int n = countOccurrences(space.getWhitespace(), "\n");
         for (Comment comment : space.getComments()) {
-            if (comment instanceof TextComment) {
-                TextComment textComment = (TextComment) comment;
+            if (comment instanceof TextComment textComment) {
                 n += countOccurrences(textComment.getText(), "\n");
-            } else if (comment instanceof Javadoc.DocComment) {
-                Javadoc.DocComment docComment = (Javadoc.DocComment) comment;
+            } else if (comment instanceof Javadoc.DocComment docComment) {
                 n += countOccurrences(docComment.toString(), "\n");
             }
             n += countOccurrences(comment.getSuffix(), "\n");

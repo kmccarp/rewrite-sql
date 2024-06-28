@@ -121,10 +121,9 @@ class SqlQueryBase extends Top.Base implements SqlQuery {
         if (deparser instanceof ChangeTrackingExpressionDeParser) {
             sql = ChangeTrackingExpressionDeParser.applyChange(this.sql, sql);
         }
-        if (tree instanceof PlainText) {
-            return ((PlainText) tree).withText(sql);
-        } else if (tree instanceof J.Literal) {
-            J.Literal literal = (J.Literal) tree;
+        if (tree instanceof PlainText text) {
+            return text.withText(sql);
+        } else if (tree instanceof J.Literal literal) {
             return literal.withValue(sql)
                     .withValueSource("\"" + sql + "\"");
         }

@@ -54,7 +54,7 @@ class FindSqlTest implements RewriteTest {
         rewriteRun(
           spec -> spec.dataTable(DatabaseColumnsUsed.Row.class, rows -> {
               assertThat(rows).hasSize(1);
-              DatabaseColumnsUsed.Row row = rows.get(0);
+              DatabaseColumnsUsed.Row row = rows.getFirst();
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.SELECT);
               assertThat(row.getTable()).isEqualTo("recipe_run_repository");
               assertThat(row.getColumn()).isEqualTo("repository_origin");
@@ -84,7 +84,7 @@ class FindSqlTest implements RewriteTest {
         rewriteRun(
           spec -> spec.dataTable(DatabaseColumnsUsed.Row.class, rows -> {
               assertThat(rows).hasSize(1);
-              DatabaseColumnsUsed.Row row = rows.get(0);
+              DatabaseColumnsUsed.Row row = rows.getFirst();
               assertThat(row.getLineNumber()).isEqualTo(2);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.SELECT);
               assertThat(row.getTable()).isEqualTo("recipe_run_repository");
@@ -115,7 +115,7 @@ class FindSqlTest implements RewriteTest {
         rewriteRun(
           spec -> spec.dataTable(DatabaseColumnsUsed.Row.class, rows -> {
               assertThat(rows).hasSize(1);
-              DatabaseColumnsUsed.Row row = rows.get(0);
+              DatabaseColumnsUsed.Row row = rows.getFirst();
               assertThat(row.getLineNumber()).isEqualTo(2);
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.SELECT);
               assertThat(row.getTable()).isEqualTo("recipe_run_repository");
@@ -145,7 +145,7 @@ class FindSqlTest implements RewriteTest {
         rewriteRun(
           spec -> spec.dataTable(DatabaseColumnsUsed.Row.class, rows -> {
               assertThat(rows).hasSize(1);
-              DatabaseColumnsUsed.Row row = rows.get(0);
+              DatabaseColumnsUsed.Row row = rows.getFirst();
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.UPDATE);
               assertThat(row.getTable()).isEqualTo("commit");
               assertThat(row.getColumn()).isEqualTo("state");
@@ -174,7 +174,7 @@ class FindSqlTest implements RewriteTest {
         rewriteRun(
           spec -> spec.dataTable(DatabaseColumnsUsed.Row.class, rows -> {
               assertThat(rows).hasSize(1);
-              DatabaseColumnsUsed.Row row = rows.get(0);
+              DatabaseColumnsUsed.Row row = rows.getFirst();
               assertThat(row.getOperation()).isEqualTo(DatabaseColumnsUsed.Operation.DELETE);
               assertThat(row.getTable()).isEqualTo("access_token");
               assertThat(row.getColumn()).isNull();

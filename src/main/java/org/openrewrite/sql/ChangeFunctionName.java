@@ -38,8 +38,10 @@ public class ChangeFunctionName extends Recipe {
     String oldFunctionName;
 
     @Option(displayName = "New function name",
-            description = "The new name to use. This will match the casing of " +
-                          "the original method when a replacement is made.",
+            description = """
+                          The new name to use. This will match the casing of \
+                          the original method when a replacement is made.\
+                          """,
             example = "COALESCE")
     String newFunctionName;
 
@@ -50,8 +52,10 @@ public class ChangeFunctionName extends Recipe {
 
     @Override
     public String getDescription() {
-        return "When migrating between dialects, often one name can be substituted for another. " +
-               "For example, Oracle's NVL function can be replaced with Postgres COALESCE.";
+        return """
+               When migrating between dialects, often one name can be substituted for another. \
+               For example, Oracle's NVL function can be replaced with Postgres COALESCE.\
+               """;
     }
 
     @Override
